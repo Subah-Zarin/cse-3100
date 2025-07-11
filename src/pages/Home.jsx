@@ -5,70 +5,60 @@ import "../style/Home.css";
 
 export default function Home() {
   const [characters, setCharacters] = useState([]);
-  const [page, setPage] = useState(1);
-  const [info, setInfo] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchCharacters = async () => {
-      setLoading(true);
-      const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
-      const data = await res.json();
-      setCharacters(data.results);
-      setInfo(data.info);
-      setLoading(false);
+      let allData = [];
+      let page = 1;
+      while (allData.length < currentPage * itemsPerPage) {
+        const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
+        const data = await res.json();
+        allData = [...allData, ...data.results];
+        page++;
+        if (!data.info.next) break;
+      }
+
+      const sliced = allData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+      setCharacters(sliced);
+      setTotalPages(Math.ceil(allData.length / itemsPerPage));
     };
 
     fetchCharacters();
-  }, [page]);
+  }, [currentPage]);
 
   const handleNext = () => {
-    if (info?.next) setPage((prev) => prev + 1);
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   const handlePrev = () => {
-    if (info?.prev) setPage((prev) => prev - 1);
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
   return (
     <>
       <Navbar />
-      <main className="home-container container">
+      <main className="container home-container">
         <h1 className="home-title">Rick & Morty Explorer</h1>
-
-        {loading ? (
-          <p className="loading-text">Loading characters...</p>
-        ) : (
-          <>
-            <div className="row">
-              {characters.map((char) => (
-                <div className="col-lg-4 col-md-6 mb-4" key={char.id}>
-                  <CharacterCard character={char} />
-                </div>
-              ))}
+        <div className="row">
+          {characters.map((char) => (
+            <div className="col-md-4 mb-4" key={char.id}>
+              <CharacterCard character={char} />
             </div>
+          ))}
+        </div>
 
-            <div className="pagination-container">
-              <button
-                className="btn nav-btn"
-                onClick={handlePrev}
-                disabled={!info?.prev}
-              >
-                ← Previous
-              </button>
-
-              <span className="page-number">Page {page}</span>
-
-              <button
-                className="btn nav-btn"
-                onClick={handleNext}
-                disabled={!info?.next}
-              >
-                Next →
-              </button>
-            </div>
-          </>
-        )}
+        <div className="pagination-container">
+          <button className="btn nav-btn me-2" onClick={handlePrev} disabled={currentPage === 1}>
+            ← Previous
+          </button>
+          <span className="page-number">Page {currentPage}</span>
+          <button className="btn nav-btn ms-2" onClick={handleNext}>
+            Next →
+          </button>
+        </div>
       </main>
     </>
   );
