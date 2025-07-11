@@ -8,7 +8,7 @@ export default function CharacterDetail() {
   useEffect(() => {
     fetch(`https://rickandmortyapi.com/api/character/${id}`)
       .then((res) => res.json())
-      .then(setCharacter);
+      .then(setCharacter); 
   }, [id]);
 
   if (!character) return <p>Loading...</p>;
