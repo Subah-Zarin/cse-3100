@@ -1,66 +1,90 @@
 .navbar {
-    background: linear-gradient(90deg, #1f1f1f, #292929);
-    padding: 0.8rem 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    position: sticky;
-    top: 0;
-    z-index: 999;
+  padding: 0.8rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.navbar-solid {
+  background: linear-gradient(90deg, #8e47b5, #bc83eb);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-transparent {
+  background-color: rgba(187, 114, 232, 0.377);
+  backdrop-filter: blur(6px);
+  box-shadow: none;
+}
+
+.navbar-brand {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #61dafb !important;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #ffffff !important;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: #e0e0e0 !important;
+  font-weight: 500;
+  font-size: 1.05rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #61dafb !important;
+  transform: translateY(-2px);
+}
+
+.navbar-toggler {
+  border: none;
+  background: transparent;
+}
+
+.navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+.btn-back {
+  background: transparent;
+  color: #bbb;
+  border: 1px solid #666;
+  border-radius: 30px;
+  padding: 0.3rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  background-color: #61dafb;
+  color: #000;
+  border-color: transparent;
+}
+
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background-color: rgba(43, 43, 43, 0.95);
+    padding: 1rem;
+    border-radius: 10px;
   }
-  
-  .navbar-brand {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #61dafb !important;
-    letter-spacing: 1px;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar-brand:hover {
-    color: #ffffff !important;
-  }
-  
-  .navbar-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
+
   .nav-link {
-    color: #e0e0e0 !important;
-    font-weight: 500;
-    font-size: 1.05rem;
-    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 0.5rem 0;
   }
-  
-  .nav-link:hover {
-    color: #61dafb !important;
-    transform: translateY(-2px);
+
+  .btn-back {
+    margin-bottom: 1rem;
+    width: 100%;
   }
-  
-  .navbar-toggler {
-    border: none;
-    background: transparent;
-  }
-  
-  .navbar-toggler:focus {
-    outline: none;
-    box-shadow: none;
-  }
-  
-  .navbar-toggler-icon {
-    filter: brightness(0) invert(1);
-  }
-  
-  /* Collapse menu background on mobile */
-  @media (max-width: 991px) {
-    .navbar-collapse {
-      background-color: #2b2b2b;
-      padding: 1rem;
-      border-radius: 10px;
-    }
-  
-    .nav-link {
-      padding: 0.5rem 0;
-    }
-  }
-  
+}
