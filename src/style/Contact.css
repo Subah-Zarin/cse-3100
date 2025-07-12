@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #e3cde7);
+  min-height: 100vh;
+}
+
+.contact-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.contact-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color:#61dafb;
+  margin-bottom: 2rem;
+}
+
+form {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  animation: fadeInUp 0.6s ease-in-out;
+}
+
+form .form-control {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+form label {
+  color: #a07dcb;
+}
+
+form .btn {
+  background-color:#61dafb;
+  border: none;
+  font-weight: 500;
+}
+
+form .btn:hover {
+  background-color: #b083cc;
+}
+
+.alert-success {
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+  color: #0f5132;
+  border-radius: 8px;
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
