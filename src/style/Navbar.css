@@ -38,7 +38,7 @@
 .nav-link {
   color: #e0e0e0 !important;
   font-weight: 500;
-  font-size: 1.05rem;
+  font-size: 1.20rem;
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
@@ -62,7 +62,7 @@
   border: 1px solid #666;
   border-radius: 30px;
   padding: 0.3rem 1rem;
-  font-size: 0.95rem;
+  font-size: 1.20rem;
   transition: all 0.3s ease;
 }
 

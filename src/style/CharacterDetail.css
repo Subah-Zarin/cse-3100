@@ -76,6 +76,32 @@
   color: #555;
 }
 
+/* Episode list styling */
+.episode-list {
+  list-style: decimal inside;
+  padding-left: 1rem;
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #444;
+}
+
+.view-toggle-btn {
+  margin-top: 10px;
+  align-self: flex-end;
+  background-color: #61dafb;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-toggle-btn:hover {
+  background-color: #21a1c4;
+  color: white;
+}
+
 /* Status colors */
 .status {
   font-weight: 700;
@@ -131,5 +157,9 @@
   }
   .info-group {
     font-size: 1rem;
+  }
+  .view-toggle-btn {
+    width: 100%;
+    text-align: center;
   }
 }
