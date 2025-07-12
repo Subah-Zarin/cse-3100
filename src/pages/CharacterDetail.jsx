@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import "../style/CharacterDetail.css";
 
 export default function CharacterDetail() {
   const { id } = useParams();
@@ -8,19 +10,52 @@ export default function CharacterDetail() {
   useEffect(() => {
     fetch(`https://rickandmortyapi.com/api/character/${id}`)
       .then((res) => res.json())
-      .then(setCharacter); 
+      .then(setCharacter)
+      .catch(console.error);
   }, [id]);
 
-  if (!character) return <p>Loading...</p>;
+  if (!character)
+    return <p className="loading-text">Loading character data...</p>;
 
   return (
-    <div className="container my-4">
-      <h2>{character.name}</h2>
-      <img src={character.image} alt={character.name} className="img-fluid" />
-      <p>
-        <strong>Status:</strong> {character.status} <br />
-        <strong>Species:</strong> {character.species} <br />
-      </p>
-    </div>
+    <>
+      <Navbar />
+      <main className="detail-main">
+        <div className="detail-card">
+          <div className="image-container">
+            <img
+              src={character.image}
+              alt={character.name}
+              className="detail-image"
+            />
+          </div>
+          <div className="detail-info">
+            <h1 className="detail-name">{character.name}</h1>
+            <div className="info-group">
+              <span className="info-label">Status:</span>
+              <span className={`status ${character.status.toLowerCase()}`}>
+                {character.status}
+              </span>
+            </div>
+            <div className="info-group">
+              <span className="info-label">Species:</span>
+              <span>{character.species}</span>
+            </div>
+            <div className="info-group">
+              <span className="info-label">Origin:</span>
+              <span>{character.origin?.name}</span>
+            </div>
+            <div className="info-group">
+              <span className="info-label">Last Known Location:</span>
+              <span>{character.location?.name}</span>
+            </div>
+            <div className="info-group">
+              <span className="info-label">Episodes Appeared In:</span>
+              <span>{character.episode?.length}</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
   );
 }

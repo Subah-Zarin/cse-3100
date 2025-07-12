@@ -1,0 +1,135 @@
+/* Container and layout */
+.detail-main {
+  min-height: 90vh;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+/* Card container */
+.detail-card {
+  background: #fff;
+  max-width: 900px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  border-radius: 20px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.detail-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Image container */
+.image-container {
+  background: #000;
+  overflow: hidden;
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.detail-card:hover .detail-image {
+  transform: scale(1.05);
+}
+
+/* Info section */
+.detail-info {
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.detail-name {
+  font-size: 2.75rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-align: center;
+  color: #222;
+}
+
+/* Info groups */
+.info-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  font-size: 1.15rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #555;
+}
+
+/* Status colors */
+.status {
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.status.alive {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status.dead {
+  background-color: #f44336;
+  color: white;
+}
+
+.status.unknown {
+  background-color: #9e9e9e;
+  color: white;
+}
+
+/* Loading text */
+.loading-text {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 6rem;
+  color: #444;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .detail-card {
+    grid-template-columns: 1fr;
+    border-radius: 15px;
+  }
+  .detail-info {
+    padding: 1.5rem 1.8rem;
+  }
+  .detail-name {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .detail-name {
+    font-size: 1.6rem;
+  }
+  .info-group {
+    font-size: 1rem;
+  }
+}

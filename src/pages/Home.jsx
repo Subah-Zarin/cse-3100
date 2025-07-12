@@ -9,7 +9,8 @@ export default function Home() {
   const [characters, setCharacters] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [status, setStatus] = useState("");
-  const [page, setPage] = useState(1);
+  const [apiPage, setApiPage] = useState(1);
+  const [uiPage, setUiPage] = useState(1);
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
@@ -17,29 +18,52 @@ export default function Home() {
       const query = new URLSearchParams({
         name: searchTerm,
         status: status,
-        page: page,
+        page: apiPage,
       });
 
-      const res = await fetch(`https://rickandmortyapi.com/api/character?${query.toString()}`);
-      const data = await res.json();
-      if (data.error) {
+      try {
+        const res = await fetch(`https://rickandmortyapi.com/api/character?${query.toString()}`);
+        const data = await res.json();
+        if (data.error) {
+          setCharacters([]);
+          setInfo(null);
+        } else {
+          setCharacters(data.results);
+          setInfo(data.info);
+        }
+      } catch {
         setCharacters([]);
         setInfo(null);
-      } else {
-        setCharacters(data.results);
-        setInfo(data.info);
       }
     };
 
     fetchCharacters();
-  }, [searchTerm, status, page]);
+  }, [searchTerm, status, apiPage]);
+
+  const charactersPerUiPage = 10;
+  const totalUiPagesForApiPage = Math.ceil((characters?.length || 0) / charactersPerUiPage);
+
+  const displayCharacters = characters.slice(
+    (uiPage - 1) * charactersPerUiPage,
+    uiPage * charactersPerUiPage
+  );
 
   const handleNext = () => {
-    if (info?.next) setPage((prev) => prev + 1);
+    if (uiPage < totalUiPagesForApiPage) {
+      setUiPage(uiPage + 1);
+    } else if (info?.next) {
+      setApiPage(apiPage + 1);
+      setUiPage(1);
+    }
   };
 
   const handlePrev = () => {
-    if (info?.prev) setPage((prev) => prev - 1);
+    if (uiPage > 1) {
+      setUiPage(uiPage - 1);
+    } else if (apiPage > 1) {
+      setApiPage(apiPage - 1);
+      setUiPage(2);
+    }
   };
 
   return (
@@ -48,33 +72,42 @@ export default function Home() {
       <main className="container home-container">
         <h1 className="home-title">Rick & Morty Explorer</h1>
 
-        {/* Filters */}
-        <div className="row mb-4">
-          <div className="col-md-6">
+        <div className="filters row mb-4">
+          <div className="col-12 col-md-6 mb-3 mb-md-0">
             <SearchBox value={searchTerm} onChange={setSearchTerm} />
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-md-6">
             <StatusDropdown value={status} onChange={setStatus} />
           </div>
         </div>
 
-        {/* Character Cards */}
-        <div className="row">
-          {characters.map((char) => (
-            <div className="col-md-4 mb-4" key={char.id}>
-              <CharacterCard character={char} />
-            </div>
-          ))}
+        <div className="row character-list">
+          {displayCharacters.length === 0 ? (
+            <p className="no-results">No characters found.</p>
+          ) : (
+            displayCharacters.map((char) => (
+              <div className="col-12 col-sm-6 col-lg-4 mb-4" key={char.id}>
+                <CharacterCard character={char} />
+              </div>
+            ))
+          )}
         </div>
 
-        {/* Pagination */}
         {info && (
-          <div className="pagination-container">
-            <button className="btn nav-btn me-2" onClick={handlePrev} disabled={!info?.prev}>
+          <div className="pagination-container d-flex justify-content-center align-items-center my-4">
+            <button
+              className="btn btn-outline-primary me-3"
+              onClick={handlePrev}
+              disabled={apiPage === 1 && uiPage === 1}
+            >
               ← Previous
             </button>
-            <span className="page-number">Page {page}</span>
-            <button className="btn nav-btn ms-2" onClick={handleNext} disabled={!info?.next}>
+            <span className="page-number mx-3">Page {(apiPage - 1) * totalUiPagesForApiPage + uiPage}</span>
+            <button
+              className="btn btn-outline-primary ms-3"
+              onClick={handleNext}
+              disabled={!info.next && uiPage === totalUiPagesForApiPage}
+            >
               Next →
             </button>
           </div>

@@ -1,43 +1,82 @@
+/* Main container */
 .home-container {
-    padding: 2rem 0;
-  }
-  
+  padding: 3rem 1.5rem;
+  background-color: #f0f4f8;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Title */
+.home-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #0ea5e9; 
+  margin-bottom: 2.5rem;
+  letter-spacing: 1px;
+}
+
+/* Pagination styling */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+/* Page number badge */
+.page-number {
+  font-weight: 600;
+  color: #fff;
+  background: #1e293b; /* Slate dark tone */
+  padding: 0.55rem 1.2rem;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Button styling */
+.nav-btn {
+  background-color: #61dafb;
+  color: #1f1f1f;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(97, 218, 251, 0.25);
+}
+
+.nav-btn:hover {
+  background-color: #21a1c4;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(33, 161, 196, 0.4);
+}
+
+.nav-btn:disabled {
+  background-color: #bcdde6;
+  color: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
   .home-title {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #61dafb;
-    margin-bottom: 2rem;
+    font-size: 2.2rem;
   }
-  
+
   .pagination-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 2rem;
+    flex-direction: column;
+    gap: 0.75rem;
   }
-  
+
   .nav-btn {
-    background-color: #61dafb;
-    color: #1f1f1f;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
   }
-  
-  .nav-btn:hover {
-    background-color: #21a1c4;
-    color: white;
-  }
-  
-  .page-number {
-    font-weight: 600;
-    color: #fff;
-    background: #333;
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-  }
-  
+}
