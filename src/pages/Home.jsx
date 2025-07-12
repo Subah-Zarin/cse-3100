@@ -3,7 +3,8 @@ import CharacterCard from "../components/CharacterCard";
 import Navbar from "../components/Navbar";
 import SearchBox from "../components/SearchBox";
 import StatusDropdown from "../components/StatusDropdown";
-import "../style/Home.css";
+
+const STORAGE_KEY = "rick-morty-filters";
 
 export default function Home() {
   const [characters, setCharacters] = useState([]);
@@ -12,6 +13,24 @@ export default function Home() {
   const [apiPage, setApiPage] = useState(1);
   const [uiPage, setUiPage] = useState(1);
   const [info, setInfo] = useState(null);
+
+  // Load filters and pages from localStorage on component mount
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const { searchTerm, status, apiPage, uiPage } = JSON.parse(saved);
+      setSearchTerm(searchTerm || "");
+      setStatus(status || "");
+      setApiPage(apiPage || 1);
+      setUiPage(uiPage || 1);
+    }
+  }, []);
+
+  // Save filters and pages to localStorage whenever any of them change
+  useEffect(() => {
+    const data = { searchTerm, status, apiPage, uiPage };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }, [searchTerm, status, apiPage, uiPage]);
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -40,16 +59,17 @@ export default function Home() {
     fetchCharacters();
   }, [searchTerm, status, apiPage]);
 
-  const charactersPerUiPage = 10;
-  const totalUiPagesForApiPage = Math.ceil((characters?.length || 0) / charactersPerUiPage);
+  // UI pagination: 10 characters per page
+  const charactersPerPage = 10;
+  const totalUiPages = Math.ceil(characters.length / charactersPerPage);
 
   const displayCharacters = characters.slice(
-    (uiPage - 1) * charactersPerUiPage,
-    uiPage * charactersPerUiPage
+    (uiPage - 1) * charactersPerPage,
+    uiPage * charactersPerPage
   );
 
   const handleNext = () => {
-    if (uiPage < totalUiPagesForApiPage) {
+    if (uiPage < totalUiPages) {
       setUiPage(uiPage + 1);
     } else if (info?.next) {
       setApiPage(apiPage + 1);
@@ -62,7 +82,7 @@ export default function Home() {
       setUiPage(uiPage - 1);
     } else if (apiPage > 1) {
       setApiPage(apiPage - 1);
-      setUiPage(2);
+      setUiPage(10); // Last UI page for previous API page
     }
   };
 
@@ -74,10 +94,10 @@ export default function Home() {
 
         <div className="filters row mb-4">
           <div className="col-12 col-md-6 mb-3 mb-md-0">
-            <SearchBox value={searchTerm} onChange={setSearchTerm} />
+            <SearchBox value={searchTerm} onChange={(val) => { setSearchTerm(val); setApiPage(1); setUiPage(1); }} />
           </div>
           <div className="col-12 col-md-6">
-            <StatusDropdown value={status} onChange={setStatus} />
+            <StatusDropdown value={status} onChange={(val) => { setStatus(val); setApiPage(1); setUiPage(1); }} />
           </div>
         </div>
 
@@ -102,11 +122,11 @@ export default function Home() {
             >
               ← Previous
             </button>
-            <span className="page-number mx-3">Page {(apiPage - 1) * totalUiPagesForApiPage + uiPage}</span>
+            <span className="page-number mx-3">Page {(apiPage - 1) * totalUiPages + uiPage}</span>
             <button
               className="btn btn-outline-primary ms-3"
               onClick={handleNext}
-              disabled={!info.next && uiPage === totalUiPagesForApiPage}
+              disabled={!info.next && uiPage === totalUiPages}
             >
               Next →
             </button>
