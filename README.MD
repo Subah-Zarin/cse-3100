@@ -9,12 +9,34 @@ An engaging, responsive single-page React application to search, filter, and exp
 
 ## Implemented Features 
 
-- **Character Details Page** – Displays detailed info via dynamic routing (`/character/:id`)
-- **Character Search & Filtering** – By name and status (Alive, Dead, Unknown) with persistent query params
-- **Pagination** – Displays 10 characters per page using API pagination; Next/Prev buttons included
-- **Contact Us Page** – Simple contact form (static or dynamic)
-- **About Us Page** – Introduces the project and purpose
-- **Navbar** – Provides clean navigation across pages
+###  Character Search & Filter
+- Search by name  
+- Filter by status (Alive / Dead / Unknown)  
+- State saved in `localStorage` to persist preferences  
+
+###  Character Details Page
+- Accessed via dynamic routing (`/character/:id`)  
+- Displays full character info: name, image, status, species, origin, last known location  
+- Shows number of episodes with a list of episode titles  
+- Includes a **View All / View Less** toggle for episode list  
+
+###  Pagination
+- 10 characters per page (UI-level slicing)  
+- Next / Previous buttons using API’s built-in pagination  
+- Prevents navigating past first/last page  
+
+###  Navigation
+- Custom responsive **Navbar** with back button  
+- Sticky, becomes transparent on scroll  
+- Links to **Home**, **About Us**, and **Contact Us**  
+
+###  Contact Us Page
+- Stylish and responsive form layout  
+- Includes form validation (name, email, message)  
+
+###  About Us Page
+- Provides project overview, purpose, and persona info   
+
 
 ---
 
