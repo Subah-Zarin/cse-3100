@@ -1,40 +1,45 @@
 import { useEffect, useState } from "react";
 import CharacterCard from "../components/CharacterCard";
 import Navbar from "../components/Navbar";
+import SearchBox from "../components/SearchBox";
+import StatusDropdown from "../components/StatusDropdown";
 import "../style/Home.css";
 
 export default function Home() {
   const [characters, setCharacters] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const itemsPerPage = 10;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [status, setStatus] = useState("");
+  const [page, setPage] = useState(1);
+  const [info, setInfo] = useState(null);
 
   useEffect(() => {
     const fetchCharacters = async () => {
-      let allData = [];
-      let page = 1;
-      while (allData.length < currentPage * itemsPerPage) {
-        const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
-        const data = await res.json();
-        allData = [...allData, ...data.results];
-        page++;
-        if (!data.info.next) break;
-      }
+      const query = new URLSearchParams({
+        name: searchTerm,
+        status: status,
+        page: page,
+      });
 
-      const sliced = allData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-      setCharacters(sliced);
-      setTotalPages(Math.ceil(allData.length / itemsPerPage));
+      const res = await fetch(`https://rickandmortyapi.com/api/character?${query.toString()}`);
+      const data = await res.json();
+      if (data.error) {
+        setCharacters([]);
+        setInfo(null);
+      } else {
+        setCharacters(data.results);
+        setInfo(data.info);
+      }
     };
 
     fetchCharacters();
-  }, [currentPage]);
+  }, [searchTerm, status, page]);
 
   const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    if (info?.next) setPage((prev) => prev + 1);
   };
 
   const handlePrev = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+    if (info?.prev) setPage((prev) => prev - 1);
   };
 
   return (
@@ -42,6 +47,18 @@ export default function Home() {
       <Navbar />
       <main className="container home-container">
         <h1 className="home-title">Rick & Morty Explorer</h1>
+
+        {/* Filters */}
+        <div className="row mb-4">
+          <div className="col-md-6">
+            <SearchBox value={searchTerm} onChange={setSearchTerm} />
+          </div>
+          <div className="col-md-6">
+            <StatusDropdown value={status} onChange={setStatus} />
+          </div>
+        </div>
+
+        {/* Character Cards */}
         <div className="row">
           {characters.map((char) => (
             <div className="col-md-4 mb-4" key={char.id}>
@@ -50,15 +67,18 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="pagination-container">
-          <button className="btn nav-btn me-2" onClick={handlePrev} disabled={currentPage === 1}>
-            ← Previous
-          </button>
-          <span className="page-number">Page {currentPage}</span>
-          <button className="btn nav-btn ms-2" onClick={handleNext}>
-            Next →
-          </button>
-        </div>
+        {/* Pagination */}
+        {info && (
+          <div className="pagination-container">
+            <button className="btn nav-btn me-2" onClick={handlePrev} disabled={!info?.prev}>
+              ← Previous
+            </button>
+            <span className="page-number">Page {page}</span>
+            <button className="btn nav-btn ms-2" onClick={handleNext} disabled={!info?.next}>
+              Next →
+            </button>
+          </div>
+        )}
       </main>
     </>
   );
