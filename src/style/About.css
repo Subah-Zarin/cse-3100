@@ -1,0 +1,40 @@
+.about-container {
+  background-color: #fdfdfd;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.about-title {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #61dafb;
+  margin-bottom: 2rem;
+}
+
+.about-section {
+  margin-bottom: 2rem;
+}
+
+.about-section h4 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #444;
+}
+
+.about-section p,
+.about-section ul {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.quote {
+  font-style: italic;
+  background: #f0f8ff;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #61dafb;
+  border-radius: 6px;
+  margin-top: 1rem;
+  color: #333;
+}
